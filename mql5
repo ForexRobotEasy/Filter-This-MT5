@@ -1,0 +1,86 @@
+mql5
+//+------------------------------------------------------------------+
+//|                                            Filter This MT5.mq5   |
+//|                                  Copyright 2021, Forex Robot Easy |
+//|                                        https://forexroboteasy.com |
+//+------------------------------------------------------------------+
+
+//+------------------------------------------------------------------+
+//|                        Global Variables                           |
+//+------------------------------------------------------------------+
+datetime g_lastRefreshTime; // Last time the news source was refreshed
+
+//+------------------------------------------------------------------+
+//|                   Expert initialization function                 |
+//+------------------------------------------------------------------+
+int OnInit()
+{
+   g_lastRefreshTime = TimeCurrent(); // Initialize the last refresh time
+   return INIT_SUCCEEDED;
+}
+
+//+------------------------------------------------------------------+
+//|                     Expert deinitialization function             |
+//+------------------------------------------------------------------+
+void OnDeinit(const int reason)
+{
+   // Perform any necessary cleanup before the expert is removed
+}
+
+//+------------------------------------------------------------------+
+//|                  Expert tick function                            |
+//+------------------------------------------------------------------+
+void OnTick()
+{
+   // Check if it's time to refresh the news source
+   if (TimeCurrent() - g_lastRefreshTime > MinutesToSeconds(Traders_GetRefreshInterval()))
+   {
+      RefreshNewsSource(); // Call the function to refresh the news source
+      g_lastRefreshTime = TimeCurrent(); // Update the last refresh time
+   }
+
+   // Check for filtered news and execute buy/sell orders
+   if (IsFilteredNewsAvailable())
+   {
+      ExecuteOrders(); // Call the function to execute buy/sell orders
+   }
+}
+
+//+------------------------------------------------------------------+
+//|            Function to refresh the news source                    |
+//+------------------------------------------------------------------+
+void RefreshNewsSource()
+{
+   // Code to integrate with Forex Factory's economic calendar and fetch news updates
+   // ...
+
+   // Update the news source
+   // ...
+}
+
+//+------------------------------------------------------------------+
+//|         Function to check if filtered news is available          |
+//+------------------------------------------------------------------+
+bool IsFilteredNewsAvailable()
+{
+   // Code to filter news based on specific currencies or keywords
+   // ...
+
+   // Return true if filtered news is available, false otherwise
+   return true; // Placeholder code, replace with actual implementation
+}
+
+//+------------------------------------------------------------------+
+//|             Function to execute buy/sell orders                   |
+//+------------------------------------------------------------------+
+void ExecuteOrders()
+{
+   // Code to execute buy/sell orders based on the filtered news
+   // ...
+
+   // Set stop-loss and take-profit levels for the orders
+   // ...
+
+   // Print a message to the Experts tab indicating the execution of orders
+   Print('Orders executed based on filtered news');
+}
